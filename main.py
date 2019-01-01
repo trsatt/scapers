@@ -11,18 +11,18 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
+USERNAME = ''
+PASSWORD = ''
+
 class InstaBot():
     def __init__(self, email, password):
         
         prefs = {"profile.managed_default_content_settings.images": 2, 'disk-cache-size': 4096 }
-        
         self.options = webdriver.ChromeOptions()
         self.options.add_experimental_option('prefs', prefs)
-    
         self.browser = webdriver.Chrome('C:/Users/tsattgast/webdrivers/chromedriver.exe')
         self.email = email
         self.password = password
-        
         
         
     def signIn(self):
@@ -38,7 +38,6 @@ class InstaBot():
         time.sleep(sleep_time)
         password_input.send_keys(Keys.ENTER)
         time.sleep(3 * random.random())
-        
         
     def unfollowUser(self, username):
         self.browser.get('https://www.instagram.com/' + username + '/')
@@ -88,11 +87,11 @@ class InstaBot():
         return followers
     
     
-    def getUserFollowing(self, username, max):
-        self.browser.get('https://www.instagram.com/' + username)
-        followingLink = self.broswer.find_elements_by_css_selector('ul li a')[1]
-        followingLink.click()
-        time.sleep(2 + random.random())
+#    def getUserFollowing(self, username, max):
+#        self.browser.get('https://www.instagram.com/' + username)
+#        followingLink = self.broswer.find_elements_by_css_selector('ul li a')[1]
+#        followingLink.click()
+#        time.sleep(2 + random.random())
         
         
         
@@ -152,26 +151,28 @@ class InstaBot():
 
 
 
-my_bot = InstaBot(username, password)
-
+my_bot = InstaBot(USERNAME, PASSWORD)
 my_bot.signIn()
-#followers = my_bot.get_followers()
-#following = my_bot.get_following()
+
+followers = my_bot.get_followers()
+following = my_bot.get_following()
+
 
 
 fuckers = list(set(following) - set(followers))
-fuckers = fuckers[31:60]
-print(fuckers)
+# insta catches on after a few automated drops and stops dropping after a few
+#fuckers = fuckers[31:60]
+#print(fuckers)
 
-#for user in fuckers:
-for num, user in enumerate(fuckers):
-    my_bot.unfollowUser(user)
-    print('unfollowed {}. What a fucker! {} left'.format(user, len(fuckers)-num-1))
-    time.sleep(random.random())
+
+
+
+#for num, user in enumerate(fuckers):
+#    my_bot.unfollowUser(user)
+#    print('unfollowed {}. What a fucker! {} left'.format(user, len(fuckers)-num-1))
+#    time.sleep(random.random())
     
 
-#my_bot.closeBrowser()
-
-print(len(fuckers))
+my_bot.closeBrowser()
 
 
